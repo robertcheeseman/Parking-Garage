@@ -6,6 +6,16 @@ class ParkingGarage():
         self.capacity = capacity
 
     def takeTicket(self):
+        if self.parkingSpaces == []:
+            print(f"I'm sorry, there is no parking spaces avaliable")
+        else:
+            print("Thank you for requesting a ticket, Have a Great Day!\n")
+            print(f"You have ticket {self.tickets[0]}")
+            del(self.tickets[0])
+            del(self.parkingSpaces[0])
+            print(f"There is {len(self.parkingSpaces)} parking spaces left!")
+            print(self.parkingSpaces)
+        
         # decrease amount of tickets available by 1
         # decrease amount of parking spaces available by 1
         pass
