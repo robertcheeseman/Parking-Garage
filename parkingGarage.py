@@ -5,82 +5,91 @@ class ParkingGarage():
         self.currentTicket = {}
         self.capacity = capacity
 
+# Robert Coded the welcome method
+    def welcome(self):
+        print("\n+++++ +++++ +++++ +++++ Welcome To The Parking Garage +++++ +++++ +++++ +++++\n")
+        print("Please select from the following options:")
+
+# Julian Coded the takeTicket method
     def takeTicket(self):
-        # decrease amount of tickets available by 1
-        # decrease amount of parking spaces available by 1
+        print("\n+++++ +++++ +++++ +++++ Get Parking Ticket +++++ +++++ +++++ +++++\n")
         if self.parkingSpaces == []:
-            print(f"I'm sorry, there is no parking spaces avaliable")
+            print("I'm sorry, there are no parking spaces avaliable at this time. Please come back soon.")
         else:
-            print("Thank you for requesting a ticket, Have a Great Day!\n")
-            print(f"You have ticket {self.tickets[0]}")
+            print("Thank you for requesting a ticket.")
+            print(f"You have ticket number {self.tickets[0]}. Have a Great Day!")
             del(self.tickets[0])
             del(self.parkingSpaces[0])
-            print(f"There is {len(self.parkingSpaces)} parking spaces left!")
-            print(self.parkingSpaces)
+            print(f"There are {len(self.parkingSpaces)} parking spaces remaining.")
+        
 
+# Robert Coded the payForParking method
     def payForParking(self):
-        # Display an input that waits for an amount from the user and store it in a variable
-        # If the payment variable is not empty then (meaning the ticket has been paid) -> display a message to the user that their ticket has been paid and they have 15mins to leave
-        # This should update the "currentTicket" dictionary key "paid" to True
-        while True:
-            print("\n+++++ +++++ +++++ +++++ +++++ +++++ +++++ +++++\n")
-            paymentTicketNumber = input("To pay for parking please enter your ticket number: ")
-            paymentAmount = int(input("Your current balance is $10 for parking.  Please enter that amount here: $"))
-            if type(paymentAmount) == str:
-                print("You have made an invalid selection. Please try again")
-            elif paymentAmount == 10:
-                print("Thank you for payment of $10.  Your ticket has been paid and you have 15 minutes to leave the garage.")
-                self.currentTicket[paymentTicketNumber] = True
-                break
-            elif paymentAmount < 10:
-                print(f"Your payment total is insufficient by ${10 - paymentAmount}.  Please pay $10.")
-            elif paymentAmount > 10:
-                print(f"Your payment total is too much by ${paymentAmount - 10}.  Please pay $10.")
-      
-
-    def leaveGarage(self):
-        ticket_num = int(input(f"To leave the Garage, Share your ticket number."))
-        for key,value in self.currentTicket.items():
-            if key == ticket_num and value == True:
-                print(f"Thank you for paying, Have a wonderful Day!") 
-                self.tickets.append(ticket_num)
-                self.parkingSpaces.append(ticket_num)
-            elif key == ticket_num and value == False:
-                print(f"You have not paid for parking, Please pay your amount!")
+        print("\n+++++ +++++ +++++ +++++ Pay For Parking +++++ +++++ +++++ +++++\n")
+        paymentTicketNumber = input("To pay for parking please enter your ticket number: ")
+        if paymentTicketNumber.isnumeric() == False:
+            print("You have entered your ticket number incorrectly.  Please try again.")
+            self.payForParking()
+        elif int(paymentTicketNumber) in self.currentTicket.keys(): 
+            paymentAmount = input("Your current balance is $10 for parking.  Please enter payment amount here: $")
+            if paymentAmount.isnumeric() == True:
+                if int(paymentAmount) == 10:
+                    print("Thank you for payment of $10.  Your ticket has been paid and you have 15 minutes to leave the garage.")
+                    self.currentTicket[int(paymentTicketNumber)] = True
+                    self.leaveGarage()
+                elif int(paymentAmount) < 10:
+                    print(f"Your payment total is insufficient by ${10 - int(paymentAmount)}.  Please pay $10.")
+                    self.payForParking()
+                elif int(paymentAmount) > 10:
+                    print(f"Your payment total is too much by ${int(paymentAmount) - 10}.  Please pay $10.")
+                    self.payForParking()
+            elif paymentAmount.isnumeric() == False:
+                print("\nWe request you only use numbers for payment. Please try again.")
                 self.payForParking()
-
-        # If the ticket has been paid, display a message of "Thank You, have a nice day"
-        # If the ticket has not been paid, display an input prompt for payment
-        # Once paid, display message "Thank you, have a nice day!"
-        # Update parkingSpaces list to increase by 1 (meaning add to the parkingSpaces list)
-        # Update tickets list to increase by 1 (meaning add to the tickets list)
-        pass
+        elif int(paymentTicketNumber) not in self.currentTicket.keys():
+            print("Your ticket number is invalid.  Please try again.")
+            self.payForParking()
+            
+# Julian Coded the leaveGarage method
+    def leaveGarage(self):
+        print("\n+++++ +++++ +++++ +++++ Exit Parking Garage +++++ +++++ +++++ +++++\n")
+        ticket_num = input("To exit the Garage, please share your ticket number: ")
+        if int(ticket_num) in self.currentTicket.keys():
+            if ticket_num.isnumeric() == True:
+                for key,value in self.currentTicket.items():
+                    if key == int(ticket_num) and value == True:
+                        print(f"Thank you for parking with us, Have a wonderful Day!") 
+                        self.tickets.append(ticket_num)
+                        self.parkingSpaces.append(ticket_num)
+                    elif key == int(ticket_num) and value == False:
+                        print("You have entered your ticket number incorrectly.  Please try again.")
+                        self.leaveGarage()
+            elif ticket_num.isnumeric() == False:
+                print("You have entered your ticket number incorrectly.  Please try again.")
+                self.leaveGarage()
+        elif int(ticket_num) not in self.currentTicket.keys():
+            print("Your ticket number is invalid.  Please try again.")
+            self.leaveGarage()
+                
 
 park = ParkingGarage(5)
 
+# Robert coded the runner function
 def runner():
-    print("\n+++++ +++++ +++++ +++++ +++++ +++++ +++++ +++++\n")
-    print("Hello.  Welcome to the Parking Garage.\n")
     for ticket in range(1, park.capacity + 1):
         park.tickets.append(ticket)
         park.parkingSpaces.append(ticket)
         park.currentTicket[int(ticket)] = False
     while True:
-        print("Please select from the following options:")
+        park.welcome()
         user_input = input(f'  [1] Request New Ticket\n  [2] Pay for Exisiting Parking Ticket\nEnter your choice here: ')
         if user_input == '1':
             park.takeTicket()
         elif user_input== '2':
             park.payForParking()
-            park.leaveGarage()
+            for key, value in park.currentTicket.items():
+                park.currentTicket[key] = False
         else:
-            print('You have made an invalid selection.  Please try again using [1] or [2]')
-
-
-    # print(park.tickets)
-    # print(park.parkingSpaces)
-    # print(park.currentTicket)
-
-
+            print('\nYou have made an invalid selection.  Please try again using [1] or [2]')
 
 runner()
