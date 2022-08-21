@@ -30,6 +30,8 @@ class ParkingGarage():
                 print("You have made an invalid selection. Please try again")
             elif paymentAmount == 10:
                 print("Thank you for payment of $10.  Your ticket has been paid and you have 15 minutes to leave the garage.")
+                self.currentTicket[paymentTicketNumber] = True
+                break
             elif paymentAmount < 10:
                 print(f"Your payment total is insufficient by ${10 - paymentAmount}.  Please pay $10.")
             elif paymentAmount > 10:
@@ -37,6 +39,16 @@ class ParkingGarage():
       
 
     def leaveGarage(self):
+        ticket_num = int(input(f"To leave the Garage, Share your ticket number."))
+        for key,value in self.currentTicket.items():
+            if key == ticket_num and value == True:
+                print(f"Thank you for paying, Have a wonderful Day!") 
+                self.tickets.append(ticket_num)
+                self.parkingSpaces.append(ticket_num)
+            elif key == ticket_num and value == False:
+                print(f"You have not paid for parking, Please pay your amount!")
+                self.payForParking()
+
         # If the ticket has been paid, display a message of "Thank You, have a nice day"
         # If the ticket has not been paid, display an input prompt for payment
         # Once paid, display message "Thank you, have a nice day!"
