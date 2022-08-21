@@ -6,6 +6,8 @@ class ParkingGarage():
         self.capacity = capacity
 
     def takeTicket(self):
+        # decrease amount of tickets available by 1
+        # decrease amount of parking spaces available by 1
         if self.parkingSpaces == []:
             print(f"I'm sorry, there is no parking spaces avaliable")
         else:
@@ -15,16 +17,24 @@ class ParkingGarage():
             del(self.parkingSpaces[0])
             print(f"There is {len(self.parkingSpaces)} parking spaces left!")
             print(self.parkingSpaces)
-        
-        # decrease amount of tickets available by 1
-        # decrease amount of parking spaces available by 1
-        pass
 
     def payForParking(self):
         # Display an input that waits for an amount from the user and store it in a variable
         # If the payment variable is not empty then (meaning the ticket has been paid) -> display a message to the user that their ticket has been paid and they have 15mins to leave
         # This should update the "currentTicket" dictionary key "paid" to True
-        pass
+        while True:
+            print("\n+++++ +++++ +++++ +++++ +++++ +++++ +++++ +++++\n")
+            paymentTicketNumber = input("To pay for parking please enter your ticket number: ")
+            paymentAmount = int(input("Your current balance is $10 for parking.  Please enter that amount here: $"))
+            if type(paymentAmount) == str:
+                print("You have made an invalid selection. Please try again")
+            elif paymentAmount == 10:
+                print("Thank you for payment of $10.  Your ticket has been paid and you have 15 minutes to leave the garage.")
+            elif paymentAmount < 10:
+                print(f"Your payment total is insufficient by ${10 - paymentAmount}.  Please pay $10.")
+            elif paymentAmount > 10:
+                print(f"Your payment total is too much by ${paymentAmount - 10}.  Please pay $10.")
+      
 
     def leaveGarage(self):
         # If the ticket has been paid, display a message of "Thank You, have a nice day"
