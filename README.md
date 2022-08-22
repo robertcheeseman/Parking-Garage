@@ -41,4 +41,12 @@ When the project is completed, commit the final changes, sync all pull requests,
 
 
 ###### List group responsiblities below:
+discussed making the class function at the top together.
+Robert coded welcome method, pay for parking method, and runner function
+Julian coded take ticket method and leave garage method
+
 ###### Provide name and approxamite line numbers where each person wrote their code
+
+Robert: 1-11, 26-51, 75-95
+
+Julian: 14-23, 54-72
